@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class TreeNode{
+module.exports.TreeNode = class TreeNode{
     constructor(value,left=null,right=null){
         this.value = value;
         this.left = left;
@@ -8,7 +8,7 @@ module.exports = class TreeNode{
     }
 };
 
-module.exports = class BST{
+module.exports.BST = class BST{
     constructor(root=null){
         this.root = root;
     }
@@ -51,14 +51,24 @@ module.exports = class BST{
         else
             return this._find(root.left,value);
     }
+
+    isBalanced() {
+        return this._isBalanced(this.root);
+    }
+
+    _isBalanced(root) {
+        if(root === null) return true;
+
+        let leftHeight = Math.max(root.left);
+        let rightHeight = Math.max(root.right);
+        let difference = Math.abs(leftHeight, rightHeight);
+
+        if(difference > 1){
+            return false;
+        } else if(difference === 1){
+            return true;
+        } else {
+            return this._isBalanced(root.left) && this._isBalanced(root.right);
+        }
+    }
 };
-
-let bst = new BST();
-bst.insert(new TreeNode(5));
-bst.insert(new TreeNode(2));
-bst.insert(new TreeNode(8));
-bst.insert(new TreeNode(16));
-
-console.log(bst.find(8));
-console.log(bst.find(16));
-console.log(bst.find(100));
